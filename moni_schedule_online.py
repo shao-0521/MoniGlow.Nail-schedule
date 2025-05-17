@@ -38,7 +38,6 @@ st.markdown(
         color: white !important;
     }}
 
-    /* 手機樣式 */
     @media (max-width: 768px) {{
         .stApp img {{
             width: 80px !important;
