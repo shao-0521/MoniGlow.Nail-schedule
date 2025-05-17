@@ -39,7 +39,7 @@ st.markdown(
         color: white !important;
     }}
 
-    button span {{
+    button[class^="css"] > div > span {{
         color: black !important;
     }}
 
@@ -60,6 +60,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
