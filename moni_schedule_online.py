@@ -8,7 +8,14 @@ def get_base64_img(img_path):
         data = f.read()
     return base64.b64encode(data).decode()
 
+def get_base64_audio(audio_file):
+    with open(audio_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
 side_image_base64 = get_base64_img("cat.jpg")
+logo_base64 = get_base64_img("moni_nail.jpg")
+audio_base64 = get_base64_audio("background_music.mp3")
 
 st.markdown(
     f"""
@@ -61,8 +68,25 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-logo_base64 = get_base64_img("moni_nail.jpg")
+# Audio player (hidden)
+st.markdown(
+    f"""
+    <audio id="gen-audio" style="display:none">
+        <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+    </audio>
+    <script>
+    function playAudio() {{
+        var audio = document.getElementById("gen-audio");
+        if (audio) {{
+            audio.play();
+        }}
+    }}
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
+# Logo
 st.markdown(
     f"""
     <div class='logo-container' style='text-align:center; margin-bottom:10px;'>
@@ -74,28 +98,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-def get_base64_audio(audio_file):
-    with open(audio_file, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
-audio_base64 = get_base64_audio("background_music.mp3")
-
-st.markdown(
-    f"""
-    <audio controls autoplay loop>
-        <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
-    """,
-    unsafe_allow_html=True
-)
-
-
-
-
-
-
 st.title("MoniGlow._Nail Schedule Generator")
 st.write("Enter the year, month, and daily time slots.")
 
@@ -105,7 +107,6 @@ next_year = today.year + (1 if today.month == 12 else 0)
 
 year = st.number_input("Year", min_value=2020, max_value=2100, value=next_year)
 month = st.number_input("Month", min_value=1, max_value=12, value=next_month)
-
 time_input = st.text_input("Daily time slots (e.g., 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
 schedule_times = [t.strip() for t in time_input.split(",") if t.strip()]
 
@@ -127,9 +128,11 @@ def generate_schedule(year, month, schedule_times):
     return "\n".join(output_lines)
 
 if st.button("Generate Schedule"):
+    st.markdown("<script>playAudio();</script>", unsafe_allow_html=True)
+    
     if not schedule_times:
-        st.error("Please enter at least one time")
+        st.error("Please enter at least one time slot.")
     else:
         schedule_text = generate_schedule(year, month, schedule_times)
-        st.subheader("Preview (you can copy by touch the schedule and the copy buttn on the upper right)")
+        st.subheader("Preview (you can copy the schedule below)")
         st.code(schedule_text, language="text")
