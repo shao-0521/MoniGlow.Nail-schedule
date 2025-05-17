@@ -38,12 +38,10 @@ st.markdown(
         color: white !important;
     }}
 
-    /* 修正 Streamlit 按鈕的文字顏色為黑色（白底按鈕才看得見） */
     button.css-1emrehy.edgvbvh3 span {{
         color: black !important;
     }}
 
-    /* 手機版圖片和標題樣式 */
     @media (max-width: 768px) {{
         .stApp img {{
             width: 80px !important;
