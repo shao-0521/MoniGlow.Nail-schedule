@@ -77,8 +77,13 @@ st.markdown(
 st.title("MoniGlow._Nail Schedule Generator")
 st.write("Enter the year, month, and daily time slots.")
 
-year = st.number_input("Year", min_value=2020, max_value=2100, value=datetime.now().year)
-month = st.number_input("Month", min_value=1, max_value=12, value=datetime.now().month)
+today = datetime.now()
+next_month = today.month % 12 + 1
+next_year = today.year + (1 if today.month == 12 else 0)
+
+year = st.number_input("Year", min_value=2020, max_value=2100, value=next_year)
+month = st.number_input("Month", min_value=1, max_value=12, value=next_month)
+
 today = datetime.now()
 next_month = today.month % 12 + 1
 next_year = today.year + (1 if today.month == 12 else 0)
