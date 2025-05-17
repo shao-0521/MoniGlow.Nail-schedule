@@ -115,7 +115,11 @@ def generate_schedule(year, month, schedule_times):
         line = f"{month}/{day_str} ({day_name}) {formatted_times}"
         output_lines.append(line)
 
+        if weekday == 6:
+            output_lines.append("")
+
     return "\n".join(output_lines)
+
 
 if st.button("Generate Schedule"):
     if not schedule_times:
