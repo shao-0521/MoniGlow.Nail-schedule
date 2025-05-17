@@ -74,17 +74,17 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("MoniGlow._Nail Schedule")
-st.write("Enter the year, month and time of day")
+st.title("MoniGlow._Nail Schedule Generator")
+st.write("Enter the year, month, and daily time slots.")
 
-year = st.number_input("Years", min_value=2020, max_value=2100, value=datetime.now().year)
+year = st.number_input("Year", min_value=2020, max_value=2100, value=datetime.now().year)
 month = st.number_input("Month", min_value=1, max_value=12, value=datetime.now().month)
-time_input = st.text_input("Enter the daily time (default: 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
+time_input = st.text_input("Daily time slots (e.g., 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
 schedule_times = [t.strip() for t in time_input.split(",") if t.strip()]
 
 start_date = date(year, month, 1)
 end_date = date(year, month, calendar.monthrange(year, month)[1])
-holidays = st.date_input("Off day", value=[], min_value=start_date, max_value=end_date)
+holidays = st.date_input("Select holiday dates (multi-select supported)", value=[], min_value=start_date, max_value=end_date)
 
 def generate_schedule(year, month, schedule_times, holidays):
     days_in_month = calendar.monthrange(year, month)[1]
@@ -100,15 +100,15 @@ def generate_schedule(year, month, schedule_times, holidays):
         day_name = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][weekday]
         day_str = f"{day:02d}"
         formatted_times = " ".join([time_format.format(time) for time in schedule_times])
-        line = f"{month}/{day_str}({day_name}) {formatted_times}"
+        line = f"{month}/{day_str} ({day_name}) {formatted_times}"
         output_lines.append(line)
 
     return "\n".join(output_lines)
 
-if st.button("Generate"):
+if st.button("Generate Schedule"):
     if not schedule_times:
-        st.error("Enter at least one time")
+        st.error("Please enter at least one time slot.")
     else:
         schedule_text = generate_schedule(year, month, schedule_times, holidays)
-        st.subheader("Schedule preview (copy in the upper right corner)")
+        st.subheader("Preview (you can copy the schedule below)")
         st.code(schedule_text, language="text")
