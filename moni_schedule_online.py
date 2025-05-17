@@ -52,9 +52,10 @@ st.markdown(
         }}
     }}
 
-    button[kind="primary"] > div {{
-        color: black !important;
-    }}
+    button.css-1emrehy.edgvbvh3 span {
+    color: black !important;
+}
+
     </style>
     """,
     unsafe_allow_html=True
