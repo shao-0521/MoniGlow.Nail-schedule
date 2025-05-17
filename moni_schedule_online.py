@@ -104,5 +104,5 @@ if st.button("Generate Schedule"):
         st.error("Please enter at least one time")
     else:
         schedule_text = generate_schedule(year, month, schedule_times)
-        st.subheader("Preview (you can copy by touch the schudle and the copy buttn on the upper right)")
+        st.subheader("Preview (you can copy by touch the schedule and the copy buttn on the upper right)")
         st.code(schedule_text, language="text")
