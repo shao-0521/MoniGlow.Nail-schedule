@@ -9,6 +9,7 @@ def get_base64_img(img_path):
     return base64.b64encode(data).decode()
 
 side_image_base64 = get_base64_img("cat.jpg")
+
 st.markdown(
     f"""
     <style>
@@ -38,7 +39,7 @@ st.markdown(
         color: white !important;
     }}
 
-    button.css-1emrehy.edgvbvh3 span {{
+    button span {{
         color: black !important;
     }}
 
@@ -59,6 +60,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 logo_base64 = get_base64_img("moni_nail.jpg")
