@@ -1,6 +1,6 @@
 import streamlit as st
 import calendar
-from datetime import datetime
+from datetime import datetime, date
 import base64
 
 def get_base64_img(img_path):
@@ -26,7 +26,6 @@ st.markdown(
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
-
         animation: scroll-vertical 20s linear infinite alternate;
         background-attachment: scroll, scroll;
     }}
@@ -62,9 +61,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-
 logo_base64 = get_base64_img("moni_nail.jpg")
 
 st.markdown(
@@ -84,16 +80,22 @@ st.write("Enter the year, month and time of day")
 year = st.number_input("Years", min_value=2020, max_value=2100, value=datetime.now().year)
 month = st.number_input("Month", min_value=1, max_value=12, value=datetime.now().month)
 time_input = st.text_input("Enter the daily time (default: 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
-
 schedule_times = [t.strip() for t in time_input.split(",") if t.strip()]
 
-def generate_schedule(year, month, schedule_times):
+start_date = date(year, month, 1)
+end_date = date(year, month, calendar.monthrange(year, month)[1])
+holidays = st.date_input("Off day", value=[], min_value=start_date, max_value=end_date)
+
+def generate_schedule(year, month, schedule_times, holidays):
     days_in_month = calendar.monthrange(year, month)[1]
     max_time_length = max(len(time) for time in schedule_times)
     time_format = f"{{:<{max_time_length}}}"
 
     output_lines = []
     for day in range(1, days_in_month + 1):
+        current_date = date(year, month, day)
+        if current_date in holidays:
+            continue
         weekday = calendar.weekday(year, month, day)
         day_name = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][weekday]
         day_str = f"{day:02d}"
@@ -107,7 +109,6 @@ if st.button("Generate"):
     if not schedule_times:
         st.error("Enter at least one time")
     else:
-        schedule_text = generate_schedule(year, month, schedule_times)
-
+        schedule_text = generate_schedule(year, month, schedule_times, holidays)
         st.subheader("Schedule preview (copy in the upper right corner)")
         st.code(schedule_text, language="text")
