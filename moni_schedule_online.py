@@ -26,7 +26,7 @@ st.markdown(
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
-        animation: scroll-vertical 20s linear infinite alternate;
+        animation: scroll-vertical 10s linear infinite alternate;
         background-attachment: scroll, scroll;
     }}
 
