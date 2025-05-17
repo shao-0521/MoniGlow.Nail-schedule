@@ -1,31 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import streamlit as st
 import calendar
 from datetime import datetime
@@ -37,7 +9,6 @@ def get_base64_img(img_path):
     return base64.b64encode(data).decode()
 
 side_image_base64 = get_base64_img("cat.jpg")
-
 st.markdown(
     f"""
     <style>
@@ -63,12 +34,11 @@ st.markdown(
         background-attachment: scroll, scroll;
     }}
 
-   
     .stApp, .stMarkdown, .stTextInput, .stNumberInput, .stButton, .stCode {{
         color: white !important;
     }}
 
-    
+    /* 手機樣式 */
     @media (max-width: 768px) {{
         .stApp img {{
             width: 80px !important;
@@ -81,6 +51,10 @@ st.markdown(
             font-size: 1.5rem !important;
             text-align: center;
         }}
+    }}
+
+    button[kind="primary"] > div {{
+        color: black !important;
     }}
     </style>
     """,
