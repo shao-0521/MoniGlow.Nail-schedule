@@ -87,8 +87,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("MoniGlow._Nail Schedule Generator")
-st.write("Enter the year, month, and daily time slots.")
+st.title("MoniGlow._Nail Schedule")
+st.write("Enter the year, month, and daily time")
 
 today = datetime.now()
 next_month = today.month % 12 + 1
