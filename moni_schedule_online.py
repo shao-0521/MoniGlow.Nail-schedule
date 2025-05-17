@@ -39,7 +39,12 @@ st.markdown(
         color: white !important;
     }}
 
-    button[class^="css"] > div > span {{
+    button div[data-testid="baseButton-body"] span {{
+        color: black !important;
+    }}
+
+    button:focus div[data-testid="baseButton-body"] span,
+    button:active div[data-testid="baseButton-body"] span {{
         color: black !important;
     }}
 
