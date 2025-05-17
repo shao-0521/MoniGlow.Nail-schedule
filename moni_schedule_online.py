@@ -13,13 +13,8 @@ side_image_base64 = get_base64_img("cat.jpg")
 st.markdown(
     f"""
     <style>
-    @keyframes scroll-up {{
-        0% {{ background-position-y: 1000px; }}
-        100% {{ background-position-y: 0px; }}
-    }}
-
-    @keyframes scroll-down {{
-        0% {{ background-position-y: 0px; }}
+    @keyframes scroll-vertical {{
+        0%   {{ background-position-y: 0px; }}
         100% {{ background-position-y: 1000px; }}
     }}
 
@@ -31,7 +26,8 @@ st.markdown(
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
-        animation: scroll-up 20s linear infinite, scroll-down 20s linear infinite;
+
+        animation: scroll-vertical 20s linear infinite alternate;
         background-attachment: scroll, scroll;
     }}
 
