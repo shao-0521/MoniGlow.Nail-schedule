@@ -74,6 +74,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+def get_base64_audio(audio_file):
+    with open(audio_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+audio_base64 = get_base64_audio("background_music.mp3")
+
+st.markdown(
+    f"""
+    <audio controls autoplay loop>
+        <source src="data:audio/mp3;base64,{audio_base64}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+
+
+
 st.title("MoniGlow._Nail Schedule Generator")
 st.write("Enter the year, month, and daily time slots.")
 
