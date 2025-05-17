@@ -82,11 +82,7 @@ month = st.number_input("Month", min_value=1, max_value=12, value=datetime.now()
 time_input = st.text_input("Daily time slots (e.g., 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
 schedule_times = [t.strip() for t in time_input.split(",") if t.strip()]
 
-start_date = date(year, month, 1)
-end_date = date(year, month, calendar.monthrange(year, month)[1])
-holidays = st.date_input("Select holiday dates (multi-select supported)", value=[], min_value=start_date, max_value=end_date)
-
-def generate_schedule(year, month, schedule_times, holidays):
+def generate_schedule(year, month, schedule_times):
     days_in_month = calendar.monthrange(year, month)[1]
     max_time_length = max(len(time) for time in schedule_times)
     time_format = f"{{:<{max_time_length}}}"
@@ -94,8 +90,6 @@ def generate_schedule(year, month, schedule_times, holidays):
     output_lines = []
     for day in range(1, days_in_month + 1):
         current_date = date(year, month, day)
-        if current_date in holidays:
-            continue
         weekday = calendar.weekday(year, month, day)
         day_name = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][weekday]
         day_str = f"{day:02d}"
@@ -109,6 +103,6 @@ if st.button("Generate Schedule"):
     if not schedule_times:
         st.error("Please enter at least one time slot.")
     else:
-        schedule_text = generate_schedule(year, month, schedule_times, holidays)
+        schedule_text = generate_schedule(year, month, schedule_times)
         st.subheader("Preview (you can copy the schedule below)")
         st.code(schedule_text, language="text")
