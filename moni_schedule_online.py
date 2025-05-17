@@ -34,10 +34,16 @@ st.markdown(
         background-attachment: scroll, scroll;
     }}
 
-    .stApp, .stMarkdown, .stTextInput, .stNumberInput, .stButton, .stCode {{
+    .stApp, .stMarkdown, .stTextInput, .stNumberInput, .stCode {{
         color: white !important;
     }}
 
+    /* 修正 Streamlit 按鈕的文字顏色為黑色（白底按鈕才看得見） */
+    button.css-1emrehy.edgvbvh3 span {{
+        color: black !important;
+    }}
+
+    /* 手機版圖片和標題樣式 */
     @media (max-width: 768px) {{
         .stApp img {{
             width: 80px !important;
@@ -51,15 +57,11 @@ st.markdown(
             text-align: center;
         }}
     }}
-
-    button.css-1emrehy.edgvbvh3 span {
-    color: black !important;
-}
-
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 logo_base64 = get_base64_img("moni_nail.jpg")
 
