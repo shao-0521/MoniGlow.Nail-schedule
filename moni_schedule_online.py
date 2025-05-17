@@ -56,10 +56,23 @@ st.markdown(
             text-align: center;
         }}
     }}
+
+    /* 🔍 Make number input fields and step buttons larger */
+    input[type="number"] {{
+        font-size: 1.3rem !important;
+        padding: 0.5rem 1rem !important;
+    }}
+
+    button[aria-label="Increment"] > svg,
+    button[aria-label="Decrement"] > svg {{
+        width: 20px !important;
+        height: 20px !important;
+    }}
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 logo_base64 = get_base64_img("moni_nail.jpg")
 
