@@ -8,7 +8,8 @@ def get_base64_img(img_path):
         data = f.read()
     return base64.b64encode(data).decode()
 
-side_image_base64 = get_base64_img("cat.jpg")
+left_side_image_base64 = get_base64_img("cat.jpg")
+right_side_image_base64 = get_base64_img("shao.jpg")
 
 st.markdown(
     f"""
@@ -21,8 +22,8 @@ st.markdown(
     .stApp {{
         background-color: black;
         background-image:
-            url("data:image/png;base64,{side_image_base64}"),
-            url("data:image/png;base64,{side_image_base64}");
+            url("data:image/png;base64,{left_side_image_base64}"),
+            url("data:image/png;base64,{right_side_image_base64}");
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
