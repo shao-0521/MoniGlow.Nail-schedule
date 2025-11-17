@@ -88,7 +88,7 @@ if "current_year" not in st.session_state:
 col_prev, col_label, col_next = st.columns([1, 2, 1])
 
 with col_prev:
-    if st.button("◀️ Prev"):
+    if st.button("<- Prev"):
         if st.session_state.current_month == 1:
             st.session_state.current_month = 12
             st.session_state.current_year -= 1
@@ -96,7 +96,7 @@ with col_prev:
             st.session_state.current_month -= 1
 
 with col_next:
-    if st.button("Next ▶️"):
+    if st.button("Next ->"):
         if st.session_state.current_month == 12:
             st.session_state.current_month = 1
             st.session_state.current_year += 1
