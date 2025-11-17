@@ -2,10 +2,26 @@ import streamlit as st
 import calendar
 from datetime import datetime, timedelta
 import base64
+import random
+import os
 
 def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
+
+def load_quotes():
+    quotes = []
+    if os.path.exists("quotes.txt"):
+        with open("quotes.txt", "r", encoding="utf-8") as f:
+            quotes = [line.strip() for line in f if line.strip()]
+    if not quotes:
+        quotes = [
+            "可能一分鐘就是 60 秒。",
+            "紫羅蘭是紫的，玫瑰是紅的。",
+            "今天不想上班，但是還是上了。",
+            "排程可以亂，但指甲不能醜。",
+        ]
+    return quotes
 
 if "bg_left" not in st.session_state:
     st.session_state.bg_left = get_base64_img("cat.jpg")
@@ -58,6 +74,17 @@ st.markdown(
 )
 
 st.title("MoniGlow._Nail Schedule")
+
+if "popup_shown" not in st.session_state:
+    st.session_state.popup_shown = False
+if "popup_text" not in st.session_state:
+    st.session_state.popup_text = random.choice(load_quotes())
+
+if not st.session_state.popup_shown:
+    with st.modal("Today's nonsense"):
+        st.write(st.session_state.popup_text)
+        st.caption("Tap anywhere else or close this dialog to continue.")
+    st.session_state.popup_shown = True
 
 if "current_year" not in st.session_state:
     today = datetime.now()
