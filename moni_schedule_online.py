@@ -207,5 +207,3 @@ if st.button("Generate"):
     txt = generate_schedule(year, month)
     st.subheader("Preview")
     st.code(txt, language="text")
-
-如果用手機打開 實際體驗好像不太好 有甚麼解決方法嗎
