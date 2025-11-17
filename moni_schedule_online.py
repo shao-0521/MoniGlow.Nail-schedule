@@ -69,13 +69,50 @@ def generate_months():
         arr.append(m)
     return arr
 
-month_list = generate_months()
-month_display = [m.strftime("%b %Y") for m in month_list]
-selected = st.selectbox("Select Month", month_display, index=0)
-selected_date = month_list[month_display.index(selected)]
-year = selected_date.year
-month = selected_date.month
+# month_list = generate_months()
+# month_display = [m.strftime("%b %Y") for m in month_list]
+# selected = st.selectbox("Select Month", month_display, index=0)
+# selected_date = month_list[month_display.index(selected)]
+# year = selected_date.year
+# month = selected_date.month
+# days_in_month = calendar.monthrange(year, month)[1]
+
+# Initialize month state
+if "current_year" not in st.session_state:
+    today = datetime.now()
+    next_month = today.month % 12 + 1
+    next_year = today.year + (1 if today.month == 12 else 0)
+    st.session_state.current_year = next_year
+    st.session_state.current_month = next_month
+
+col_prev, col_label, col_next = st.columns([1, 2, 1])
+
+with col_prev:
+    if st.button("◀️ Prev"):
+        if st.session_state.current_month == 1:
+            st.session_state.current_month = 12
+            st.session_state.current_year -= 1
+        else:
+            st.session_state.current_month -= 1
+
+with col_next:
+    if st.button("Next ▶️"):
+        if st.session_state.current_month == 12:
+            st.session_state.current_month = 1
+            st.session_state.current_year += 1
+        else:
+            st.session_state.current_month += 1
+
+with col_label:
+    st.markdown(
+        f"<h3 style='text-align:center;'>{datetime(st.session_state.current_year, st.session_state.current_month, 1).strftime('%B %Y')}</h3>",
+        unsafe_allow_html=True
+    )
+
+year = st.session_state.current_year
+month = st.session_state.current_month
 days_in_month = calendar.monthrange(year, month)[1]
+
 
 st.markdown("---")
 
