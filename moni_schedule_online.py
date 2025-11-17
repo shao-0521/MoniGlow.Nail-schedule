@@ -112,9 +112,8 @@ WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 days_in_month = calendar.monthrange(int(year), int(month))[1]
 
 st.write(f"Selected Month: **{int(year)} / {int(month):02d}**")
-st.write("Default option is None.")
 
-header_cols = st.columns([1, 1, 3])
+header_cols = st.columns([1, 1, 4])
 with header_cols[0]:
     st.markdown("**Date**")
 with header_cols[1]:
@@ -127,14 +126,20 @@ for day in range(1, days_in_month + 1):
     day_name = WEEKDAY_NAMES[weekday]
     date_str = f"{int(month):02d}/{day:02d}"
 
-    c1, c2, c3 = st.columns([1, 1, 3])
+    c1, c2, c3 = st.columns([1, 1, 4])
     with c1:
         st.write(date_str)
     with c2:
         st.write(day_name)
     with c3:
         key = f"choice_{int(year)}_{int(month)}_{day}"
-        st.selectbox("Option", OPTION_LABELS, key=key, label_visibility="collapsed")
+        st.radio(
+            "Option",
+            OPTION_LABELS,
+            key=key,
+            label_visibility="collapsed",
+            horizontal=True,
+        )
 
 st.markdown("---")
 
