@@ -88,7 +88,7 @@ st.markdown(
 )
 
 st.title("MoniGlow._Nail Schedule")
-st.write("Select schedule month and assign daily time options.")
+st.write("Select month and assign daily time")
 
 today = datetime.now()
 next_month = today.month % 12 + 1
