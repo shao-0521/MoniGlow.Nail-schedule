@@ -136,6 +136,10 @@ with st.expander("Click to expand day settings", expanded=True):
                 horizontal=True
             )
 
+    if weekday == 6:
+        st.markdown("<br>", unsafe_allow_html=True)
+
+
 st.markdown("---")
 
 def generate_schedule(year, month):
