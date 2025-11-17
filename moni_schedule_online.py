@@ -85,23 +85,32 @@ if "current_year" not in st.session_state:
     st.session_state.current_year = next_year
     st.session_state.current_month = next_month
 
-col_prev, col_label, col_next = st.columns([1, 2, 1])
+col_prev, col_center, col_next = st.columns([1, 3, 1])
 
 with col_prev:
-    if st.button("<- Prev"):
+    st.markdown("<div style='text-align:left;'>", unsafe_allow_html=True)
+    if st.button("← Prev"):
         if st.session_state.current_month == 1:
             st.session_state.current_month = 12
             st.session_state.current_year -= 1
         else:
             st.session_state.current_month -= 1
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col_center:
+    month_label = datetime(st.session_state.current_year, st.session_state.current_month, 1).strftime("%B %Y")
+    st.markdown(f"<h2 style='text-align:center; margin-top:5px;'>{month_label}</h2>", unsafe_allow_html=True)
 
 with col_next:
-    if st.button("Next ->"):
+    st.markdown("<div style='text-align:right;'>", unsafe_allow_html=True)
+    if st.button("Next →"):
         if st.session_state.current_month == 12:
             st.session_state.current_month = 1
             st.session_state.current_year += 1
         else:
             st.session_state.current_month += 1
+    st.markdown("</div>", unsafe_allow_html=True)
+
 
 with col_label:
     st.markdown(
