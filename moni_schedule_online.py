@@ -7,7 +7,6 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# 載入背景與 logo 圖片（只載一次）
 if "bg_left" not in st.session_state:
     st.session_state.bg_left = get_base64_img("cat.jpg")
 if "bg_right" not in st.session_state:
@@ -19,7 +18,6 @@ left_side_image_base64 = st.session_state.bg_left
 right_side_image_base64 = st.session_state.bg_right
 logo_base64 = st.session_state.logo_img
 
-# 全域樣式 + 手機版優化
 st.markdown(
     f"""
     <style>
@@ -43,42 +41,11 @@ st.markdown(
     button div[data-testid="baseButton-body"] span {{
         color: black !important;
     }}
-
-    /* ------- 手機版樣式 ------- */
-    @media (max-width: 768px) {{
-
-        /* 只留一側背景、縮小一點，避免太花 */
-        .stApp {{
-            background-image:
-                url("data:image/png;base64,{left_side_image_base64}");
-            background-size: 60px auto;
-            animation: none; /* 手機上關掉背景動畫 */
-        }}
-
-        /* 讓所有 columns 直向堆疊，避免擠一排 */
-        div[data-testid="column"] {{
-            flex: 1 1 100% !important;
-        }}
-
-        /* 讓所有 st.radio 的選項改成直向排列 */
-        div[data-testid="stRadio"] > div {{
-            flex-direction: column !important;
-        }}
-
-        /* 字體稍微縮小 */
-        h1, h2, h3 {{
-            font-size: 1.1rem !important;
-        }}
-        code {{
-            font-size: 0.8rem !important;
-        }}
-    }}
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Logo
 st.markdown(
     f"""
     <div style='text-align:center; margin-bottom:10px;'>
@@ -92,7 +59,6 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
-# 目前顯示月份（預設下一個月）
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -139,7 +105,6 @@ days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
-# 時間組合設定
 st.subheader("Customize Time Sets")
 
 if "time_sets" not in st.session_state:
@@ -170,9 +135,6 @@ WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 st.subheader("Daily Schedule Settings")
 
-# 手機簡化版切換：用 selectbox 取代橫向 radio（比較不擠）
-mobile_mode = st.toggle("📱 手機簡化版（建議手機開啟）", value=False)
-
 with st.expander("Click to expand day settings", expanded=True):
     header = st.columns([1, 1, 4])
     with header[0]:
@@ -196,39 +158,22 @@ with st.expander("Click to expand day settings", expanded=True):
             key = f"choice_{year}_{month}_{day}"
             if key not in st.session_state:
                 st.session_state[key] = "Time-1"
-
-            if mobile_mode:
-                # 手機簡化版：用 selectbox，比較省空間
-                st.selectbox(
-                    "Option",
-                    OPTION_LABELS,
-                    key=key,
-                    label_visibility="collapsed",
-                )
-            else:
-                # 桌機版：維持原本橫向 radio
-                st.radio(
-                    "Option",
-                    OPTION_LABELS,
-                    key=key,
-                    label_visibility="collapsed",
-                    horizontal=True
-                )
-
-        # 每週結尾畫一條線，比較好讀
-        if weekday == 6:
-            st.markdown(
-                "<hr style='border: 0; border-top: 1px solid #555;'>",
-                unsafe_allow_html=True
+            st.radio(
+                "Option",
+                OPTION_LABELS,
+                key=key,
+                label_visibility="collapsed",
+                horizontal=True
             )
+
+        if weekday == 6:
+            st.markdown("<br>", unsafe_allow_html=True)
 
 st.markdown("---")
 
 def generate_schedule(year, month):
     output = []
     parsed = {}
-
-    # 解析時間組合
     for k, v in st.session_state.time_sets.items():
         parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
 
@@ -236,9 +181,7 @@ def generate_schedule(year, month):
     max_len = max(len(t) for t in all_times) if all_times else 5
     fmt = f"{{:<{max_len}}}"
 
-    days_in_month_local = calendar.monthrange(year, month)[1]
-
-    for day in range(1, days_in_month_local + 1):
+    for day in range(1, days_in_month + 1):
         weekday = calendar.weekday(year, month, day)
         wd = WEEKDAYS[weekday]
         d = f"{day:02d}"
@@ -256,7 +199,6 @@ def generate_schedule(year, month):
 
         output.append(line)
         if weekday == 6:
-            # 每週空一行
             output.append("")
 
     return "\n".join(output)
@@ -265,3 +207,5 @@ if st.button("Generate"):
     txt = generate_schedule(year, month)
     st.subheader("Preview")
     st.code(txt, language="text")
+
+如果用手機打開 實際體驗好像不太好 有甚麼解決方法嗎
