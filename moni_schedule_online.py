@@ -124,6 +124,10 @@ with st.expander("Click to expand day settings", expanded=True):
             st.write(day_name)
         with r3:
             key = f"choice_{year}_{month}_{day}"
+            
+            if key not in st.session_state:
+                st.session_state[key] = "Time-1"
+            
             st.radio(
                 "Option",
                 OPTION_LABELS,
