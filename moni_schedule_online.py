@@ -84,8 +84,8 @@ st.subheader("Customize Time Sets")
 if "time_sets" not in st.session_state:
     st.session_state.time_sets = {
         "Time-1": "10:30, 14:00, 17:30",
-        "Time-2": "10:00, 13:00, 16:30, 19:30",
-        "Time-3": "11:00, 14:30, 18:00"
+        "Time-2": "11:00, 14:30, 18:00",
+        "Time-3": "10:00, 13:00, 16:30, 19:30",
     }
 
 c1, c2, c3 = st.columns(3)
