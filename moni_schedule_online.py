@@ -148,7 +148,7 @@ def generate_schedule(year, month):
         weekday = calendar.weekday(year, month, day)
         wd = WEEKDAYS[weekday]
         d = f"{day:02d}"
-        choice = st.session_state.get(f"choice_{year}_{month}_{day}", "None")
+        choice = st.session_state.get(f"choice_{year}_{month}_{day}", "Time-1")
 
         if choice == "None":
             line = f"{month}/{d} ({wd})"
