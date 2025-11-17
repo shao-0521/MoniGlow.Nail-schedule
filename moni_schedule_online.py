@@ -1,6 +1,6 @@
 import streamlit as st
 import calendar
-from datetime import datetime, date
+from datetime import datetime
 import base64
 
 def get_base64_img(img_path):
@@ -58,7 +58,6 @@ st.markdown(
         }}
     }}
 
-    /* 🔍 Make number input fields and step buttons larger */
     input[type="number"] {{
         font-size: 1.3rem !important;
         padding: 0.5rem 1rem !important;
@@ -74,7 +73,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
 logo_base64 = get_base64_img("moni_nail.jpg")
 
 st.markdown(
@@ -89,7 +87,7 @@ st.markdown(
 )
 
 st.title("MoniGlow._Nail Schedule")
-st.write("Enter the year, month, and daily time")
+st.write("Select schedule month and assign daily time options.")
 
 today = datetime.now()
 next_month = today.month % 12 + 1
@@ -98,34 +96,78 @@ next_year = today.year + (1 if today.month == 12 else 0)
 year = st.number_input("Year", min_value=2020, max_value=2100, value=next_year)
 month = st.number_input("Month", min_value=1, max_value=12, value=next_month)
 
-time_input = st.text_input("Daily time slots (e.g., 10:30, 14:00, 17:30)", "10:30,14:00,17:30")
-schedule_times = [t.strip() for t in time_input.split(",") if t.strip()]
+st.markdown("---")
 
-def generate_schedule(year, month, schedule_times):
-    days_in_month = calendar.monthrange(year, month)[1]
-    max_time_length = max(len(time) for time in schedule_times)
+st.subheader("Step 2 - Select schedule option for each day")
+
+TIME_SETS = {
+    "Time-1": ["10:30", "14:00", "17:30"],
+    "Time-2": ["10:00", "13:00", "16:30", "19:30"],
+    "Time-3": ["11:00", "14:30", "18:00"],
+}
+
+OPTION_LABELS = ["None", "Dayoff", "Time-1", "Time-2", "Time-3"]
+WEEKDAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+days_in_month = calendar.monthrange(int(year), int(month))[1]
+
+st.write(f"Selected Month: **{int(year)} / {int(month):02d}**")
+st.write("Default option is None.")
+
+header_cols = st.columns([1, 1, 3])
+with header_cols[0]:
+    st.markdown("**Date**")
+with header_cols[1]:
+    st.markdown("**Weekday**")
+with header_cols[2]:
+    st.markdown("**Option**")
+
+for day in range(1, days_in_month + 1):
+    weekday = calendar.weekday(int(year), int(month), day)
+    day_name = WEEKDAY_NAMES[weekday]
+    date_str = f"{int(month):02d}/{day:02d}"
+
+    c1, c2, c3 = st.columns([1, 1, 3])
+    with c1:
+        st.write(date_str)
+    with c2:
+        st.write(day_name)
+    with c3:
+        key = f"choice_{int(year)}_{int(month)}_{day}"
+        st.selectbox("Option", OPTION_LABELS, key=key, label_visibility="collapsed")
+
+st.markdown("---")
+
+def generate_schedule_from_choices(year: int, month: int):
+    lines = []
+    all_times = [t for times in TIME_SETS.values() for t in times]
+    max_time_length = max(len(t) for t in all_times)
     time_format = f"{{:<{max_time_length}}}"
 
-    output_lines = []
     for day in range(1, days_in_month + 1):
-        current_date = date(year, month, day)
         weekday = calendar.weekday(year, month, day)
-        day_name = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][weekday]
+        day_name = WEEKDAY_NAMES[weekday]
         day_str = f"{day:02d}"
-        formatted_times = " ".join([time_format.format(time) for time in schedule_times])
-        line = f"{month}/{day_str} ({day_name}) {formatted_times}"
-        output_lines.append(line)
+        key = f"choice_{year}_{month}_{day}"
+        choice = st.session_state.get(key, "None")
+
+        if choice == "None":
+            line = f"{month}/{day_str} ({day_name})"
+        elif choice == "Dayoff":
+            line = f"{month}/{day_str} ({day_name}) Dayoff"
+        else:
+            times = TIME_SETS.get(choice, [])
+            formatted_times = " ".join(time_format.format(t) for t in times)
+            line = f"{month}/{day_str} ({day_name}) {formatted_times}"
+
+        lines.append(line)
 
         if weekday == 6:
-            output_lines.append("")
+            lines.append("")
 
-    return "\n".join(output_lines)
+    return "\n".join(lines)
 
-
-if st.button("Generate Schedule"):
-    if not schedule_times:
-        st.error("Please enter at least one time")
-    else:
-        schedule_text = generate_schedule(year, month, schedule_times)
-        st.subheader("Preview (you can copy by touch the schedule and the copy buttn on the upper right)")
-        st.code(schedule_text, language="text")
+if st.button("Generate"):
+    schedule_text = generate_schedule_from_choices(int(year), int(month))
+    st.subheader("Preview")
+    st.code(schedule_text, language="text")
