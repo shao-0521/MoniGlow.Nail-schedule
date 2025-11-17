@@ -2,6 +2,7 @@ import streamlit as st
 import calendar
 from datetime import datetime
 import base64
+from datetime import timedelta
 
 def get_base64_img(img_path):
     with open(img_path, "rb") as f:
@@ -93,8 +94,33 @@ today = datetime.now()
 next_month = today.month % 12 + 1
 next_year = today.year + (1 if today.month == 12 else 0)
 
-year = st.number_input("Year", min_value=2020, max_value=2100, value=next_year)
-month = st.number_input("Month", min_value=1, max_value=12, value=next_month)
+# year = st.number_input("Year", min_value=2020, max_value=2100, value=next_year)
+# month = st.number_input("Month", min_value=1, max_value=12, value=next_month)
+
+
+def generate_month_options():
+    today = datetime.now().replace(day=1)
+    start_month = today + timedelta(days=32)  # next month
+    start_month = start_month.replace(day=1)
+
+    month_list = []
+    for i in range(24):  # next 24 months
+        target = (start_month.replace(day=1) + timedelta(days=32 * i)).replace(day=1)
+        month_list.append(target)
+
+    return month_list
+
+month_options = generate_month_options()
+
+month_display = [m.strftime("%b %Y") for m in month_options]
+
+default_index = 0  # always next month
+
+selected = st.selectbox("Select Month", month_display, index=default_index)
+
+selected_date = month_options[month_display.index(selected)]
+year = selected_date.year
+month = selected_date.month
 
 st.markdown("---")
 
