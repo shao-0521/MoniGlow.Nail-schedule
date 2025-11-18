@@ -136,6 +136,13 @@ def parse_time_sets():
 # ---- Daily Schedule 設定 ----
 st.subheader("Daily Schedule Settings")
 
+st.markdown(
+    "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
+    "Note: Clicking the time button below, the time won't be displayed in the schedule"
+    "</p>",
+    unsafe_allow_html=True
+)
+
 with st.expander("Click to expand day settings", expanded=True):
     header = st.columns([1, 1, 4])
     with header[0]:
