@@ -242,6 +242,7 @@ with st.expander("Click to expand day settings", expanded=True):
                     """
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
+                    <hr style='border: 1px solid #777; margin: 5px 0;'>
                     """,
                     unsafe_allow_html=True
                 )
