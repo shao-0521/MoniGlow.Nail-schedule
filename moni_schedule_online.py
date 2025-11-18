@@ -7,11 +7,13 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
+# 儲存 logo 圖片於 session_state
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
 logo_base64 = st.session_state.logo_img
 
+# 全域樣式
 st.markdown(
     """
     <style>
@@ -47,6 +49,7 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
+# 跑馬燈（多語言 + 彩色 + 中間留空白）
 st.markdown("""
 <div style="
     overflow: hidden;
@@ -62,19 +65,19 @@ st.markdown("""
         font-size: 18px;
         font-weight: 600;
     ">
-        <span style="color:#ff99cc;">Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ffe066;">&nbsp;&nbsp;&nbsp; 誰是最棒的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#66ffff;">&nbsp;&nbsp;&nbsp; 邊個係最勁嘅美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ffb366;">&nbsp;&nbsp;&nbsp; 誰是尚讚的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#b3ff66;">&nbsp;&nbsp;&nbsp; 誰係最好个美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ff66ff;">&nbsp;&nbsp;&nbsp; 一番すごいネイリストは誰？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#66ccff;">&nbsp;&nbsp;&nbsp; Wer ist die beste Nagelkünstlerin? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ff6666;">&nbsp;&nbsp;&nbsp; 가장 최고의 네일 아티스트는 누구? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#99ffcc;">&nbsp;&nbsp;&nbsp; Ai là thợ làm móng giỏi nhất? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ffd1a9;">&nbsp;&nbsp;&nbsp; ช่างทำเล็บที่เก่งที่สุดคือใคร? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#ffeb3b;">&nbsp;&nbsp;&nbsp; ¿Quién es la mejor artista de uñas? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#c39eff;">&nbsp;&nbsp;&nbsp; Siapakah artis kuku yang terbaik? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span> |
-        <span style="color:#80ff80;">&nbsp;&nbsp;&nbsp; Ποια είναι η καλύτερη τεχνίτρια νυχιών; Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii &nbsp;&nbsp;&nbsp; </span>
+        <span style="color:#ff99cc;">Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ffe066;">誰是最棒的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#66ffff;">邊個係最勁嘅美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ffb366;">誰是尚讚的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#b3ff66;">誰係最好个美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ff66ff;">一番すごいネイリストは誰？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#66ccff;">Wer ist die beste Nagelkünstlerin? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ff6666;">가장 최고의 네일 아티스트는 누구? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#99ffcc;">Ai là thợ làm móng giỏi nhất? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ffd1a9;">ช่างทำเล็บที่เก่งที่สุดคือใคร? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#ffeb3b;">¿Quién es la mejor artista de uñas? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#c39eff;">Siapakah artis kuku yang terbaik? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span style="color:#80ff80;">Ποια είναι η καλύτερη τεχνίτρια νυχιών; Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii&nbsp;&nbsp;&nbsp;</span>
     </div>
 </div>
 
@@ -86,10 +89,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-
 st.markdown("---")
 
+# 初始化預設月份（下個月）
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -97,6 +99,7 @@ if "current_year" not in st.session_state:
     st.session_state.current_year = next_year
     st.session_state.current_month = next_month
 
+# 月份切換區：先處理 Prev / Next，再用更新後的值畫標題
 col_prev, col_center, col_next = st.columns([1, 3, 1])
 
 with col_prev:
@@ -109,6 +112,17 @@ with col_prev:
             st.session_state.current_month -= 1
     st.markdown("</div>", unsafe_allow_html=True)
 
+with col_next:
+    st.markdown("<div style='text-align:right;'>", unsafe_allow_html=True)
+    if st.button("Next →"):
+        if st.session_state.current_month == 12:
+            st.session_state.current_month = 1
+            st.session_state.current_year += 1
+        else:
+            st.session_state.current_month += 1
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# 這裡使用「更新後」的 year / month 來畫中間標題
 with col_center:
     month_label = datetime(
         st.session_state.current_year,
@@ -121,27 +135,18 @@ with col_center:
         unsafe_allow_html=True
     )
 
-with col_next:
-    st.markdown("<div style='text-align:right;'>", unsafe_allow_html=True)
-    if st.button("Next →"):
-        if st.session_state.current_month == 12:
-            st.session_state.current_month = 1
-            st.session_state.current_year += 1
-        else:
-            st.session_state.current_month += 1
-    st.markdown("</div>", unsafe_allow_html=True)
-
 year = st.session_state.current_year
 month = st.session_state.current_month
 days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
+# Time Set 區
 st.subheader("Customize Time Sets")
 
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
-    "The time can be changed manually, must comma < , > separated"
+    "The time can be changed manually, must comma &lt; , &gt; separated"
     "</p>",
     unsafe_allow_html=True
 )
@@ -184,7 +189,8 @@ def parse_time_sets():
     for k, v in st.session_state.time_sets.items():
         parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
     return parsed
-    
+
+# Daily Schedule 區
 st.subheader("Daily Schedule Settings")
 
 st.markdown(
@@ -229,6 +235,7 @@ with st.expander("Click to expand day settings", expanded=True):
                 horizontal=True
             )
 
+            # 顯示對應 Time-? 的時間按鈕（checkbox）
             if choice in parsed_time_sets:
                 times = parsed_time_sets.get(choice, [])
                 if times:
@@ -238,12 +245,16 @@ with st.expander("Click to expand day settings", expanded=True):
                             cb_key = f"cb_{year}_{month}_{day}_{t}"
                             st.checkbox(t, key=cb_key)
 
-        if day != days_in_month:  
-            if weekday == 6:     
-                st.markdown("""
+        # 分隔線：每一天 ----，每週結束（日）用兩條實線
+        if day != days_in_month:
+            if weekday == 6:  # Sunday
+                st.markdown(
+                    """
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
-                    """, unsafe_allow_html=True)
+                    """,
+                    unsafe_allow_html=True
+                )
             else:
                 st.markdown("----")
 
@@ -274,7 +285,6 @@ def generate_schedule(year, month):
 
         else:
             times = parsed.get(choice, [])
-
             remaining_times = []
             for t in times:
                 cb_key = f"cb_{year}_{month}_{day}_{t}"
