@@ -86,6 +86,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("---")
+
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
