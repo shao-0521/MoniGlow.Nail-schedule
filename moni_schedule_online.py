@@ -196,7 +196,7 @@ st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
     "Note: Clicking the time button below, the time won't be displayed in the schedule" 
     "</br>"
-    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selecting None displays nothing | Selecting Dayoff displays Dayoff" 
+    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selecting None displays nothing | Selecting Dayoff displays Dayoff" 
     "</p>",
     unsafe_allow_html=True
 )
