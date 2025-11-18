@@ -186,7 +186,8 @@ with st.expander("Click to expand day settings", expanded=True):
         if day != days_in_month:  # 最後一天下方可選擇要不要畫，這裡先畫
             if weekday == 6:      # Sunday
                 st.markdown("""
-                    <hr style='border: 0; border-top: 2px solid #ccc; margin: 10px 0;'>
+                    <hr style='border: 1px solid #777; margin: 5px 0;'>
+                    <hr style='border: 1px solid #777; margin: 5px 0;'>
                     """, unsafe_allow_html=True)
             else:
                 st.markdown("----")
