@@ -102,7 +102,7 @@ st.subheader("Customize Time Sets")
 
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
-    "The time can be changed manually"
+    "The time can be changed manually, must comma<,> separated"
     "</p>",
     unsafe_allow_html=True
 )
@@ -124,15 +124,15 @@ if "time_sets" not in st.session_state:
 c1, c2, c3 = st.columns(3)
 with c1:
     st.session_state.time_sets["Time-1"] = st.text_input(
-        "Time-1 (comma separated)", st.session_state.time_sets["Time-1"]
+        "Time-1", st.session_state.time_sets["Time-1"]
     )
 with c2:
     st.session_state.time_sets["Time-2"] = st.text_input(
-        "Time-2 (comma separated)", st.session_state.time_sets["Time-2"]
+        "Time-2", st.session_state.time_sets["Time-2"]
     )
 with c3:
     st.session_state.time_sets["Time-3"] = st.text_input(
-        "Time-3 (comma separated)", st.session_state.time_sets["Time-3"]
+        "Time-3", st.session_state.time_sets["Time-3"]
     )
 
 st.markdown("---")
