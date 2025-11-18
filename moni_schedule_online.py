@@ -49,6 +49,34 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
+st.markdown("""
+<div style="
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: -10px;
+">
+    <div style="
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 12s linear infinite;
+        font-size: 18px;
+        color: #ffcccc;
+    ">
+        Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+    </div>
+</div>
+
+<style>
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+</style>
+""", unsafe_allow_html=True)
+
+
 # 預設顯示「下個月」
 if "current_year" not in st.session_state:
     today = datetime.now()
