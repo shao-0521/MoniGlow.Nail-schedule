@@ -58,9 +58,13 @@ st.markdown("""
     <div style="
         display: inline-block;
         padding-left: 100%;
-        animation: marquee 60s linear infinite;
+        animation: marquee-rainbow 30s linear infinite;
         font-size: 18px;
-        color: #ffcccc;
+        font-weight: 700;
+
+        background: linear-gradient(90deg, #ff0080, #ff8c00, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff);
+        -webkit-background-clip: text;
+        color: transparent;
     ">
         Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
         誰是最棒的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
@@ -74,17 +78,18 @@ st.markdown("""
         ช่างทำเล็บที่เก่งที่สุดคือใคร? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
         ¿Quién es la mejor artista de uñas? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
         Siapakah artis kuku yang terbaik? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
-        Ποια είναι η καλύτερη τεχνίτρια νυχιών; Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 
+        Ποια είναι η καλύτερη τεχνίτρια νυχιών; Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
     </div>
 </div>
 
 <style>
-@keyframes marquee {
+@keyframes marquee-rainbow {
     0%   { transform: translate(0, 0); }
     100% { transform: translate(-100%, 0); }
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 st.markdown("---")
 
