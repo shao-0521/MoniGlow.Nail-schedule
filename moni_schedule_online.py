@@ -100,6 +100,20 @@ st.markdown("---")
 # ---- Time sets 設定區 ----
 st.subheader("Customize Time Sets")
 
+st.markdown(
+    "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
+    "The time can be changed manually"
+    "</p>",
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
+    "Page refresh will clear the records"
+    "</p>",
+    unsafe_allow_html=True
+)
+
 if "time_sets" not in st.session_state:
     st.session_state.time_sets = {
         "Time-1": "10:30, 14:00, 17:30",
