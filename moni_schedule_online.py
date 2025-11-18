@@ -1,17 +1,19 @@
 import streamlit as st
 import calendar
-from datetime import datetime, timedelta
+from datetime import datetime
 import base64
 
 def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
+# 讀 logo
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
 logo_base64 = st.session_state.logo_img
 
+# 基本樣式設定
 st.markdown(
     """
     <style>
@@ -33,6 +35,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# logo
 st.markdown(
     f"""
     <div style='text-align:center; margin-bottom:10px;'>
@@ -46,6 +49,7 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
+# 預設顯示「下個月」
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -93,6 +97,7 @@ days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
+# ---- Time sets 設定區 ----
 st.subheader("Customize Time Sets")
 
 if "time_sets" not in st.session_state:
@@ -128,15 +133,18 @@ def parse_time_sets():
         parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
     return parsed
 
+# ---- Daily Schedule 設定 ----
 st.subheader("Daily Schedule Settings")
 
 with st.expander("Click to expand day settings", expanded=True):
     header = st.columns([1, 1, 4])
-    with header[0]: st.markdown("**Date**")
-    with header[1]: st.markdown("**Weekday**")
-    with header[2]: st.markdown("**Option / Time Buttons**")
+    with header[0]:
+        st.markdown("**Date**")
+    with header[1]:
+        st.markdown("**Weekday**")
+    with header[2]:
+        st.markdown("**Option / Time Buttons**")
 
-    # 先解析一次，底下每天都會用到
     parsed_time_sets = parse_time_sets()
 
     for day in range(1, days_in_month + 1):
@@ -145,10 +153,13 @@ with st.expander("Click to expand day settings", expanded=True):
         date_str = f"{month:02d}/{day:02d}"
 
         r1, r2, r3 = st.columns([1, 1, 4])
-        with r1: st.write(date_str)
-        with r2: st.write(day_name)
+        with r1:
+            st.write(date_str)
+        with r2:
+            st.write(day_name)
 
         with r3:
+            # 每天的 Time-組合選擇
             key = f"choice_{year}_{month}_{day}"
             if key not in st.session_state:
                 st.session_state[key] = "Time-1"
@@ -161,7 +172,7 @@ with st.expander("Click to expand day settings", expanded=True):
                 horizontal=True
             )
 
-            # ▼ 在這裡加「時間 BTN」（用 checkbox 當按鈕）
+            # 根據選到的 Time-? 顯示相對應時間的 BTN (checkbox)
             if choice in parsed_time_sets:
                 times = parsed_time_sets.get(choice, [])
                 if times:
@@ -169,19 +180,23 @@ with st.expander("Click to expand day settings", expanded=True):
                     for i, t in enumerate(times):
                         with btn_cols[i]:
                             cb_key = f"cb_{year}_{month}_{day}_{t}"
-                            # 勾選代表「這個時間已被預約」
                             st.checkbox(t, key=cb_key)
 
-        if weekday == 6:
-            st.markdown("<br>", unsafe_allow_html=True)
+        # ▼ 分隔線：每天 ---- ，每週結束（日→下週一）用 ===
+        if day != days_in_month:  # 最後一天下方可選擇要不要畫，這裡先畫
+            if weekday == 6:      # Sunday
+                st.markdown("===")
+            else:
+                st.markdown("----")
 
 st.markdown("---")
 
+# ---- 產生文字版 Schedule ----
 def generate_schedule(year, month):
     output = []
     parsed = parse_time_sets()
 
-    # 計算對齊用寬度
+    # 計算時間欄位對齊用寬度
     all_times = [t for arr in parsed.values() for t in arr]
     max_len = max(len(t) for t in all_times) if all_times else 5
     fmt = f"{{:<{max_len}}}"
@@ -204,7 +219,7 @@ def generate_schedule(year, month):
         else:
             times = parsed.get(choice, [])
 
-            # 根據 checkbox 決定哪些時間還沒被勾選（=還要顯示）
+            # 根據 checkbox 狀態移除已被勾選（預約）的時間
             remaining_times = []
             for t in times:
                 cb_key = f"cb_{year}_{month}_{day}_{t}"
@@ -216,16 +231,18 @@ def generate_schedule(year, month):
                 formatted = " ".join(fmt.format(t) for t in remaining_times)
                 line = f"{month}/{d} ({wd}) {formatted}"
             else:
-                # 如果全部時間都被選走，就只顯示日期＋星期
+                # 全部被預約，就只顯示日期 + 星期
                 line = f"{month}/{d} ({wd})"
 
         output.append(line)
 
+        # 每週（日）後面加空行，讓文字表看起來分週
         if weekday == 6:
             output.append("")
 
     return "\n".join(output)
 
+# ---- 按鈕產生 Preview ----
 if st.button("Generate"):
     txt = generate_schedule(year, month)
     st.subheader("Preview")
