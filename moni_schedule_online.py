@@ -15,8 +15,8 @@ def get_base64_img(path):
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
-left_side_image_base64 = st.session_state.bg_left
-right_side_image_base64 = st.session_state.bg_right
+# left_side_image_base64 = st.session_state.bg_left
+# right_side_image_base64 = st.session_state.bg_right
 logo_base64 = st.session_state.logo_img
 
 st.markdown(
@@ -28,9 +28,9 @@ st.markdown(
     }}
     .stApp {{
         background-color: black;
-        background-image:
-            url("data:image/png;base64,{left_side_image_base64}"),
-            url("data:image/png;base64,{right_side_image_base64}");
+        # background-image:
+        #     url("data:image/png;base64,{left_side_image_base64}"),
+        #     url("data:image/png;base64,{right_side_image_base64}");
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
