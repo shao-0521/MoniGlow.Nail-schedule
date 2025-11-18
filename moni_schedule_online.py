@@ -7,15 +7,11 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# 只保留 logo，不讀 cat/shao
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
 logo_base64 = st.session_state.logo_img
 
-# ================================
-#           STYLE (無背景圖片)
-# ================================
 st.markdown(
     """
     <style>
@@ -38,9 +34,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ================================
-#               LOGO
-# ================================
 st.markdown(
     f"""
     <div style='text-align:center; margin-bottom:10px;'>
@@ -54,9 +47,6 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
-# ================================
-#     月份自動前往下個月
-# ================================
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -104,9 +94,6 @@ days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
-# ================================
-#      TIME SETS 設定
-# ================================
 st.subheader("Customize Time Sets")
 
 if "time_sets" not in st.session_state:
@@ -135,9 +122,6 @@ st.markdown("---")
 OPTION_LABELS = ["None", "Dayoff", "Time-1", "Time-2", "Time-3"]
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-# ================================
-#     Daily Schedule Settings
-# ================================
 st.subheader("Daily Schedule Settings")
 
 with st.expander("Click to expand day settings", expanded=True):
@@ -173,9 +157,6 @@ with st.expander("Click to expand day settings", expanded=True):
 
 st.markdown("---")
 
-# ================================
-#        Generate Schedule
-# ================================
 def generate_schedule(year, month):
     output = []
     parsed = {}
@@ -212,9 +193,6 @@ def generate_schedule(year, month):
 
     return "\n".join(output)
 
-# ================================
-#         SHOW RESULT
-# ================================
 if st.button("Generate"):
     txt = generate_schedule(year, month)
     st.subheader("Preview")
