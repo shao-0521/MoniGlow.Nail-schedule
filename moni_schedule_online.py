@@ -21,7 +21,6 @@ st.markdown(
     }
     .stApp {
         background-color: black;
-        /*（cat / shao 已移除，不使用任何背景圖片）*/
     }
     .stApp, .stMarkdown, .stTextInput, .stNumberInput, .stCode {
         color: white !important;
@@ -122,13 +121,23 @@ st.markdown("---")
 OPTION_LABELS = ["None", "Dayoff", "Time-1", "Time-2", "Time-3"]
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
+# 解析 time_sets 的小工具
+def parse_time_sets():
+    parsed = {}
+    for k, v in st.session_state.time_sets.items():
+        parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
+    return parsed
+
 st.subheader("Daily Schedule Settings")
 
 with st.expander("Click to expand day settings", expanded=True):
     header = st.columns([1, 1, 4])
     with header[0]: st.markdown("**Date**")
     with header[1]: st.markdown("**Weekday**")
-    with header[2]: st.markdown("**Option**")
+    with header[2]: st.markdown("**Option / Time Buttons**")
+
+    # 先解析一次，底下每天都會用到
+    parsed_time_sets = parse_time_sets()
 
     for day in range(1, days_in_month + 1):
         weekday = calendar.weekday(year, month, day)
@@ -144,13 +153,24 @@ with st.expander("Click to expand day settings", expanded=True):
             if key not in st.session_state:
                 st.session_state[key] = "Time-1"
 
-            st.radio(
+            choice = st.radio(
                 "Option",
                 OPTION_LABELS,
                 key=key,
                 label_visibility="collapsed",
                 horizontal=True
             )
+
+            # ▼ 在這裡加「時間 BTN」（用 checkbox 當按鈕）
+            if choice in parsed_time_sets:
+                times = parsed_time_sets.get(choice, [])
+                if times:
+                    btn_cols = st.columns(len(times))
+                    for i, t in enumerate(times):
+                        with btn_cols[i]:
+                            cb_key = f"cb_{year}_{month}_{day}_{t}"
+                            # 勾選代表「這個時間已被預約」
+                            st.checkbox(t, key=cb_key)
 
         if weekday == 6:
             st.markdown("<br>", unsafe_allow_html=True)
@@ -159,16 +179,16 @@ st.markdown("---")
 
 def generate_schedule(year, month):
     output = []
-    parsed = {}
+    parsed = parse_time_sets()
 
-    for k, v in st.session_state.time_sets.items():
-        parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
-
+    # 計算對齊用寬度
     all_times = [t for arr in parsed.values() for t in arr]
     max_len = max(len(t) for t in all_times) if all_times else 5
     fmt = f"{{:<{max_len}}}"
 
-    for day in range(1, days_in_month + 1):
+    days_in_month_local = calendar.monthrange(year, month)[1]
+
+    for day in range(1, days_in_month_local + 1):
         weekday = calendar.weekday(year, month, day)
         wd = WEEKDAYS[weekday]
         d = f"{day:02d}"
@@ -183,8 +203,21 @@ def generate_schedule(year, month):
 
         else:
             times = parsed.get(choice, [])
-            formatted = " ".join(fmt.format(t) for t in times)
-            line = f"{month}/{d} ({wd}) {formatted}"
+
+            # 根據 checkbox 決定哪些時間還沒被勾選（=還要顯示）
+            remaining_times = []
+            for t in times:
+                cb_key = f"cb_{year}_{month}_{day}_{t}"
+                booked = st.session_state.get(cb_key, False)
+                if not booked:
+                    remaining_times.append(t)
+
+            if remaining_times:
+                formatted = " ".join(fmt.format(t) for t in remaining_times)
+                line = f"{month}/{d} ({wd}) {formatted}"
+            else:
+                # 如果全部時間都被選走，就只顯示日期＋星期
+                line = f"{month}/{d} ({wd})"
 
         output.append(line)
 
