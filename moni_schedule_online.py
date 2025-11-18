@@ -185,7 +185,7 @@ with st.expander("Click to expand day settings", expanded=True):
         # ▼ 分隔線：每天 ---- ，每週結束（日→下週一）用 ===
         if day != days_in_month:  # 最後一天下方可選擇要不要畫，這裡先畫
             if weekday == 6:      # Sunday
-                st.markdown("=*50")
+                st.markdown("="*50)
             else:
                 st.markdown("----")
 
