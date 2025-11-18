@@ -7,13 +7,11 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# 讀 logo
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
 logo_base64 = st.session_state.logo_img
 
-# 基本樣式設定
 st.markdown(
     """
     <style>
@@ -55,16 +53,28 @@ st.markdown("""
     white-space: nowrap;
     width: 100%;
     box-sizing: border-box;
-    margin-top: -10px;
+    margin-top: -5px;
 ">
     <div style="
         display: inline-block;
         padding-left: 100%;
-        animation: marquee 12s linear infinite;
+        animation: marquee 25s linear infinite;
         font-size: 18px;
         color: #ffcccc;
     ">
-        Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+        Who is the best nail artist? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        誰是最棒的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        邊個係最勁嘅美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        誰是尚讚的美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        誰係最好个美甲師？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        一番すごいネイリストは誰？Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        Wer ist die beste Nagelkünstlerin? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        가장 최고의 네일 아티스트는 누구? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        Ai là thợ làm móng giỏi nhất? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        ช่างทำเล็บที่เก่งที่สุดคือใคร? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        ¿Quién es la mejor artista de uñas? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        Siapakah artis kuku yang terbaik? Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii |
+        Ποια είναι η καλύτερη τεχνίτρια νυχιών; Moniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii 
     </div>
 </div>
 
@@ -76,8 +86,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-
-# 預設顯示「下個月」
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -125,7 +133,6 @@ days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
-# ---- Time sets 設定區 ----
 st.subheader("Customize Time Sets")
 
 st.markdown(
@@ -168,14 +175,12 @@ st.markdown("---")
 OPTION_LABELS = ["None", "Dayoff", "Time-1", "Time-2", "Time-3"]
 WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-# 解析 time_sets 的小工具
 def parse_time_sets():
     parsed = {}
     for k, v in st.session_state.time_sets.items():
         parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
     return parsed
-
-# ---- Daily Schedule 設定 ----
+    
 st.subheader("Daily Schedule Settings")
 
 st.markdown(
@@ -208,7 +213,6 @@ with st.expander("Click to expand day settings", expanded=True):
             st.write(day_name)
 
         with r3:
-            # 每天的 Time-組合選擇
             key = f"choice_{year}_{month}_{day}"
             if key not in st.session_state:
                 st.session_state[key] = "Time-1"
@@ -221,7 +225,6 @@ with st.expander("Click to expand day settings", expanded=True):
                 horizontal=True
             )
 
-            # 根據選到的 Time-? 顯示相對應時間的 BTN (checkbox)
             if choice in parsed_time_sets:
                 times = parsed_time_sets.get(choice, [])
                 if times:
@@ -231,9 +234,8 @@ with st.expander("Click to expand day settings", expanded=True):
                             cb_key = f"cb_{year}_{month}_{day}_{t}"
                             st.checkbox(t, key=cb_key)
 
-        # ▼ 分隔線：每天 ---- ，每週結束（日→下週一）用 ===
-        if day != days_in_month:  # 最後一天下方可選擇要不要畫，這裡先畫
-            if weekday == 6:      # Sunday
+        if day != days_in_month:  
+            if weekday == 6:     
                 st.markdown("""
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
                     <hr style='border: 1px solid #777; margin: 5px 0;'>
@@ -243,12 +245,10 @@ with st.expander("Click to expand day settings", expanded=True):
 
 st.markdown("---")
 
-# ---- 產生文字版 Schedule ----
 def generate_schedule(year, month):
     output = []
     parsed = parse_time_sets()
 
-    # 計算時間欄位對齊用寬度
     all_times = [t for arr in parsed.values() for t in arr]
     max_len = max(len(t) for t in all_times) if all_times else 5
     fmt = f"{{:<{max_len}}}"
@@ -271,7 +271,6 @@ def generate_schedule(year, month):
         else:
             times = parsed.get(choice, [])
 
-            # 根據 checkbox 狀態移除已被勾選（預約）的時間
             remaining_times = []
             for t in times:
                 cb_key = f"cb_{year}_{month}_{day}_{t}"
@@ -283,18 +282,15 @@ def generate_schedule(year, month):
                 formatted = " ".join(fmt.format(t) for t in remaining_times)
                 line = f"{month}/{d} ({wd}) {formatted}"
             else:
-                # 全部被預約，就只顯示日期 + 星期
                 line = f"{month}/{d} ({wd})"
 
         output.append(line)
 
-        # 每週（日）後面加空行，讓文字表看起來分週
         if weekday == 6:
             output.append("")
 
     return "\n".join(output)
 
-# ---- 按鈕產生 Preview ----
 if st.button("Generate"):
     txt = generate_schedule(year, month)
     st.subheader("Preview")
