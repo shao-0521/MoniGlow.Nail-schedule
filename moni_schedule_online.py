@@ -7,10 +7,11 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-if "bg_left" not in st.session_state:
-    st.session_state.bg_left = get_base64_img("cat.jpg")
-if "bg_right" not in st.session_state:
-    st.session_state.bg_right = get_base64_img("shao.jpg")
+# if "bg_left" not in st.session_state:
+#     st.session_state.bg_left = get_base64_img("cat.jpg")
+# if "bg_right" not in st.session_state:
+#     st.session_state.bg_right = get_base64_img("shao.jpg")
+
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
