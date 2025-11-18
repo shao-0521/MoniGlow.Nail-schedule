@@ -7,6 +7,7 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
+# ====== 把 cat / shao 相關的先註解掉 ======
 # if "bg_left" not in st.session_state:
 #     st.session_state.bg_left = get_base64_img("cat.jpg")
 # if "bg_right" not in st.session_state:
@@ -28,13 +29,13 @@ st.markdown(
     }}
     .stApp {{
         background-color: black;
-        # background-image:
-        #     url("data:image/png;base64,{left_side_image_base64}"),
-        #     url("data:image/png;base64,{right_side_image_base64}");
+        /* background-image:
+            url("data:image/png;base64,{left_side_image_base64}"),
+            url("data:image/png;base64,{right_side_image_base64}");
         background-repeat: repeat-y, repeat-y;
         background-position: left top, right top;
         background-size: 100px auto, 100px auto;
-        animation: scroll-vertical 10s linear infinite alternate;
+        animation: scroll-vertical 10s linear infinite alternate; */
     }}
     .stApp, .stMarkdown, .stTextInput, .stNumberInput, .stCode {{
         color: white !important;
