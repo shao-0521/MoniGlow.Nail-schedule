@@ -190,12 +190,13 @@ def parse_time_sets():
         parsed[k] = [t.strip() for t in v.split(",") if t.strip()]
     return parsed
 
-# Daily Schedule 區
 st.subheader("Daily Schedule Settings")
 
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
-    "Note: Clicking the time button below, the time won't be displayed in the schedule"
+    "Note: Clicking the time button below, the time won't be displayed in the schedule" 
+    "</br>"
+    "Selecting None displays nothing | Selecting Dayoff displays Dayoff" 
     "</p>",
     unsafe_allow_html=True
 )
