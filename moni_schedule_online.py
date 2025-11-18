@@ -185,9 +185,11 @@ st.subheader("Daily Schedule Settings")
 
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
-    "Note: Clicking the time button below, the time won't be displayed in the schedule" 
+    "Note:" 
     "</br>"
     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Selecting None displays nothing | Selecting Dayoff displays Dayoff" 
+    "</br>"
+    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clicking the time button below, the time won't be displayed in the schedule"
     "</p>",
     unsafe_allow_html=True
 )
