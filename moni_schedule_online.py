@@ -7,13 +7,11 @@ def get_base64_img(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# 儲存 logo 圖片於 session_state
 if "logo_img" not in st.session_state:
     st.session_state.logo_img = get_base64_img("moni_nail.jpg")
 
 logo_base64 = st.session_state.logo_img
 
-# 全域樣式
 st.markdown(
     """
     <style>
@@ -49,7 +47,6 @@ st.markdown(
 
 st.title("MoniGlow._Nail Schedule")
 
-# 跑馬燈（多語言 + 彩色 + 中間留空白）
 st.markdown("""
 <div style="
     overflow: hidden;
@@ -91,7 +88,6 @@ st.markdown("""
 
 st.markdown("---")
 
-# 初始化預設月份（下個月）
 if "current_year" not in st.session_state:
     today = datetime.now()
     next_month = today.month % 12 + 1
@@ -99,7 +95,6 @@ if "current_year" not in st.session_state:
     st.session_state.current_year = next_year
     st.session_state.current_month = next_month
 
-# 月份切換區：先處理 Prev / Next，再用更新後的值畫標題
 col_prev, col_center, col_next = st.columns([1, 3, 1])
 
 with col_prev:
@@ -122,7 +117,6 @@ with col_next:
             st.session_state.current_month += 1
     st.markdown("</div>", unsafe_allow_html=True)
 
-# 這裡使用「更新後」的 year / month 來畫中間標題
 with col_center:
     month_label = datetime(
         st.session_state.current_year,
@@ -141,16 +135,13 @@ days_in_month = calendar.monthrange(year, month)[1]
 
 st.markdown("---")
 
-# Time Set 區
 st.subheader("Customize Time Sets")
-
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
     "The time can be changed manually, must comma &lt; , &gt; separated"
     "</p>",
     unsafe_allow_html=True
 )
-
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
     "Page refresh will clear the records"
@@ -235,8 +226,7 @@ with st.expander("Click to expand day settings", expanded=True):
                 label_visibility="collapsed",
                 horizontal=True
             )
-
-            # 顯示對應 Time-? 的時間按鈕（checkbox）
+            
             if choice in parsed_time_sets:
                 times = parsed_time_sets.get(choice, [])
                 if times:
@@ -246,7 +236,6 @@ with st.expander("Click to expand day settings", expanded=True):
                             cb_key = f"cb_{year}_{month}_{day}_{t}"
                             st.checkbox(t, key=cb_key)
 
-        # 分隔線：每一天 ----，每週結束（日）用兩條實線
         if day != days_in_month:
             if weekday == 6:  # Sunday
                 st.markdown(
