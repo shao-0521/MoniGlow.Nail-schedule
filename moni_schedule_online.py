@@ -58,7 +58,7 @@ st.markdown("""
     <div style="
         display: inline-block;
         padding-left: 100%;
-        animation: marquee-multi 30s linear infinite;
+        animation: marquee-multi 60s linear infinite;
         font-size: 18px;
         font-weight: 600;
     ">
