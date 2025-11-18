@@ -70,7 +70,7 @@ st.markdown("""
     <div style="
         display: inline-block;
         padding-left: 100%;
-        animation: marquee-multi 66s linear infinite;
+        animation: marquee-multi 123s linear infinite;
         font-size: 18px;
         font-weight: 600;
     ">
