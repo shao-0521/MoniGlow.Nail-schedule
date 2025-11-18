@@ -102,7 +102,7 @@ st.subheader("Customize Time Sets")
 
 st.markdown(
     "<p style='font-size: 13px; color: #bbb; margin-top: -10px;'>"
-    "The time can be changed manually, must comma<,> separated"
+    "The time can be changed manually, must comma < , > separated"
     "</p>",
     unsafe_allow_html=True
 )
