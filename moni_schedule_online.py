@@ -290,10 +290,13 @@ def generate_schedule(year, month):
         key = f"choice_{year}_{month}_{day}"
         choice = st.session_state.get(key, "Time-1")
 
+        if choice == "Dayoff":
+            if weekday == 6:  # Sunday
+                output.append("")
+            continue
+
         if choice == "None":
             line = f"{month}/{d} ({wd})"
-        elif choice == "Dayoff":
-            line = f"{month}/{d} ({wd}) Dayoff"
         else:
             times = parsed.get(choice, [])
             remaining_times = []
@@ -302,16 +305,20 @@ def generate_schedule(year, month):
                 booked = st.session_state.get(cb_key, False)
                 if not booked:
                     remaining_times.append(t)
+
             if remaining_times:
                 formatted = " ".join(fmt.format(t) for t in remaining_times)
                 line = f"{month}/{d} ({wd}) {formatted}"
             else:
                 line = f"{month}/{d} ({wd})"
+
         output.append(line)
+
         if weekday == 6:
             output.append("")
 
     return "\n".join(output)
+
 
 if st.button("Generate"):
     txt = generate_schedule(year, month)
